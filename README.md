@@ -11,6 +11,7 @@ skills/              skills, some with helper scripts
 hooks/               Node hooks that run before shell commands and when a turn ends
 settings/            permission rules, hook wiring and plugin list (reference copy)
 tests/               node:test suites and the real cases they're built from
+.github/             PR template and the CI workflow
 install.mjs          copies the setup into ~/.claude
 ```
 
@@ -96,6 +97,8 @@ Edit files in this repo, not in `~/.claude`, then run `node install.mjs`.
 ```
 node --test
 ```
+
+This runs every suite: secret-guard, block-network, git-ask and the installer. GitHub Actions runs them on Ubuntu and Windows for every pull request and every push to `main`.
 
 `secret-guard.js` replaced the protect-secrets plugin. Its tests start from 40 real commands the plugin blocked in my sessions between September and October 2026, with paths and names removed and each one labelled by me: 5 read a secret, 2 deleted or copied one, and 33 only mentioned `.env`. On those 40 the plugin got 5 right; secret-guard gets all 40. Run over every tool call in my saved session history (about 8,100), it stops 5, and each of those reads a real `.env` file.
 
