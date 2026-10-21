@@ -52,12 +52,12 @@ test('check is up to date after a full install', () => {
 
 test('backs up a changed file before overwriting it', () => {
   const dir = fullTarget();
-  const file = path.join(dir, 'commands', 'next.md');
+  const file = path.join(dir, 'commands', 'start.md');
   fs.appendFileSync(file, 'local edit\n');
   install(dir);
   const [stamp] = fs.readdirSync(path.join(dir, 'workflow-backups'));
-  assert.match(fs.readFileSync(path.join(dir, 'workflow-backups', stamp, 'commands', 'next.md'), 'utf8'), /local edit/);
-  assert.equal(fs.readFileSync(file, 'utf8'), fs.readFileSync(path.join(REPO, 'commands', 'next.md'), 'utf8'));
+  assert.match(fs.readFileSync(path.join(dir, 'workflow-backups', stamp, 'commands', 'start.md'), 'utf8'), /local edit/);
+  assert.equal(fs.readFileSync(file, 'utf8'), fs.readFileSync(path.join(REPO, 'commands', 'start.md'), 'utf8'));
 });
 
 test('never deletes files it does not manage', () => {

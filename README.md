@@ -31,18 +31,20 @@ Each project keeps three session docs, kept consistent by the `maintaining-sessi
 
 ## Commands
 
-| Command | What it does |
-|---|---|
-| `/start` | Orients in the project cheaply and reports back. Makes no changes. |
-| `/handover` | Writes session docs from what's already in context, without re-reading files or running git, to keep it cheap. |
-| `/close` | End-of-session checks: uncommitted changes, new TODOs, session docs. Ends with SAFE TO CLOSE or NOT SAFE TO CLOSE. |
-| `/next` | One next action, a time estimate, and what "done" looks like. Nothing else. |
-| `/stuck` | Stops trying fixes, lists the assumptions so far, names the one most likely wrong, and asks one diagnostic question. |
-| `/bro` | Re-explains the confusing part of the last answer in plain language. |
-| `/quiz` | Quizzes me on concepts from the session, one question at a time. |
-| `/grill` | Interrogates an idea through six lenses and saves a brief with a BUILD, PARK or KILL verdict. |
-| `/ship` | Checks the branch, stages explicit paths, writes a conventional commit, then stops and asks before pushing and opening a PR. |
-| `/client-update` | Drafts a plain-language update for a client from recent commits and logs it as unsent. Never sends anything. |
+| Command | What it does | Uses |
+|---|---|---|
+| `/start` | Orients in the project cheaply and reports back. Makes no changes. | 73 |
+| `/close` | End-of-session checks: uncommitted changes, new TODOs, session docs. Ends with SAFE TO CLOSE or NOT SAFE TO CLOSE. | 44 |
+| `/handover` | Writes session docs from what's already in context, without re-reading files or running git, to keep it cheap. | 36 |
+| `/ship` | Checks the branch, stages explicit paths, writes a conventional commit, then stops and asks before pushing and opening a PR. | 1 |
+| `/bro` | Re-explains the confusing part of the last answer in plain language. | 1 |
+| `/quiz` | Quizzes me on concepts from the session, one question at a time. | 0 |
+| `/grill` | Interrogates an idea through six lenses and saves a brief with a BUILD, PARK or KILL verdict. | 0 |
+| `/client-update` | Drafts a plain-language update for a client from recent commits and logs it as unsent. Never sends anything. | 0 |
+
+Uses are counted from my saved session transcripts, 23 September to 21 October 2026, whether I typed the command or Claude invoked it. `/quiz`, `/grill` and `/client-update` were added on 2 October and are situational, so they get another month before I judge them.
+
+I removed `/next` and `/stuck` on 21 October 2026. Neither was used once, because two always-on rules in `CLAUDE.md` already do their job: every reply ends with one next action and a time estimate, and after three stuck turns Claude stops, names the assumption it doubts and asks one diagnostic question.
 
 ## Skills
 
