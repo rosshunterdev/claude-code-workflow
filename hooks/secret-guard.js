@@ -47,8 +47,14 @@ function isSecretPath(word) {
 // A glob such as .env* counts if what it starts with is a secret name.
 const isSecretGlob = word => isSecretPath(word) || isSecretPath(word.replace(/\*+$/, ''));
 
-// Whole name segments, so $NODE_ENV and $MONKEY stay clean.
-const isSecretVar = name => name.toUpperCase().split('_').some(s => SECRET_WORDS.has(s));
+// Whole name segments, so $NODE_ENV and $MONKEY stay clean. A one-word
+// lowercase name like $key or $pat is a loop variable, not a secret, and
+// PAT alone is too ambiguous to count.
+function isSecretVar(name) {
+  const parts = name.split('_').filter(Boolean).map(s => s.toUpperCase());
+  if (parts.length === 1 && name !== name.toUpperCase()) return false;
+  return parts.some(s => SECRET_WORDS.has(s) && !(s === 'PAT' && parts.length === 1));
+}
 
 // PowerShell's env: drive: the whole drive, or one secret variable.
 function isEnvDrive(word) {
@@ -443,8 +449,10 @@ function judgeCommand(cmd, all, ps) {
     let k = 0;
     while (k < args.length && isOption(args[k])) k += ['-C', '-c', '--git-dir', '--work-tree'].includes(args[k]) ? 2 : 1;
     const sub = args[k];
-    if (GIT_READS.has(sub)) {
-      const rest = args.slice(k + 1);
+    const rest = args.slice(k + 1);
+    // git log only shows file contents with a patch flag.
+    const showsContent = !['log', 'whatchanged'].includes(sub) || rest.some(a => /^(?:-p|-u|--patch|-U\d*)$/.test(a));
+    if (GIT_READS.has(sub) && showsContent) {
       const paths = sub === 'grep' ? operands('grep', rest) : rest.filter(a => !isOption(a));
       for (const p of paths) {
         if (/^:(?:!|\^|\()/.test(p)) continue; // excluded pathspec

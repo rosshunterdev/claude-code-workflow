@@ -60,6 +60,12 @@ const parser = [
   ['echo "${API_KEY:+set}"', 'pass'],
   ["cat > .env.example <<'EOF'\nAPI_KEY=\nEOF", 'pass'],
   ["git log --all --name-only | grep -i '\\.env'", 'pass'],
+  // Found by running the hook over every tool call in my sessions.
+  ['for pat in TODO FIXME; do echo "== $pat =="; grep -rn "$pat" src; done', 'pass'],
+  ['git log --all --oneline -- .env', 'pass'],
+  ['git log -p -- .env', 'block'],
+  ['for key in a b; do echo $key; done', 'pass'],
+  ['echo $GITHUB_PAT', 'block'],
 ];
 for (const [command, expect] of parser) {
   test(`parser (${expect}): ${JSON.stringify(command)}`, () => assert.equal(outcome(bash(command)), expect));

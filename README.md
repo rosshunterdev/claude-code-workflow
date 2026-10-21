@@ -97,7 +97,7 @@ Edit files in this repo, not in `~/.claude`, then run `node install.mjs`.
 node --test
 ```
 
-`secret-guard.js` replaced the protect-secrets plugin. Its tests start from 40 real commands the plugin blocked in my sessions between September and October 2026, with paths and names removed and each one labelled by me: 5 read a secret, 2 deleted or copied one, and 33 only mentioned `.env`. On those 40 the plugin got 5 right; secret-guard gets all 40.
+`secret-guard.js` replaced the protect-secrets plugin. Its tests start from 40 real commands the plugin blocked in my sessions between September and October 2026, with paths and names removed and each one labelled by me: 5 read a secret, 2 deleted or copied one, and 33 only mentioned `.env`. On those 40 the plugin got 5 right; secret-guard gets all 40. Run over every tool call in my saved session history (about 8,100), it stops 5, and each of those reads a real `.env` file.
 
 The tests also run the plugin's own test cases (adapted, MIT). secret-guard passes them except where my rules deliberately differ: it asks instead of blocking before a secret file is deleted, copied or moved, and it blocks `base64` of a secret file.
 
