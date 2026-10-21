@@ -8,6 +8,7 @@ The Claude Code setup I use for client, study and personal projects: global inst
 CLAUDE.md            global instructions (personal details are imported from a private file)
 commands/            slash commands
 skills/              skills, some with helper scripts
+agents/              read-only subagents for reviewing and verifying
 hooks/               Node hooks that run before shell commands and when a turn ends
 settings/            permission rules, hook wiring and plugin list (reference copy)
 tests/               node:test suites and the real cases they're built from
@@ -56,6 +57,15 @@ I removed `/next` and `/stuck` on 21 October 2026. Neither was used once, becaus
 | `screenshot-verify` | Screenshots changed pages at desktop and mobile widths and reports console errors and failed requests before work is called done. |
 | `prompt-regression` | For apps that call an LLM: snapshot real outputs before and after a prompt, schema or model change, because mocked unit tests don't check output quality. |
 | `client-copy` | Stops Claude writing facts about a client's business (services, pricing, credentials) that the client didn't supply. |
+
+## Subagents
+
+| Agent | What it does | Model |
+|---|---|---|
+| `house-reviewer` | Reviews a diff against the rules in my global and project `CLAUDE.md` files: em dashes, `transition-all`, invented client facts, placeholder assets, secrets, scope and commit format. Reports `file:line` findings and never edits. | Main model |
+| `verifier` | Runs the project's own build, test and screenshot commands to check work claimed as done, and returns the evidence. Never fixes anything and never starts a server. | Sonnet |
+
+Both run in their own context, so a review isn't swayed by the conversation that wrote the code, and long test output stays out of the main session. Both are limited to Read, Grep, Glob and Bash; `tests/agents.test.mjs` fails if either ever gains a tool that edits files.
 
 ## Safety layers
 

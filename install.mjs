@@ -18,7 +18,7 @@ import { isDeepStrictEqual } from 'node:util';
 
 const REPO = path.dirname(fileURLToPath(import.meta.url));
 const TARGET = process.env.CLAUDE_CONFIG_DIR || path.join(os.homedir(), '.claude');
-const MANAGED = ['CLAUDE.md', 'commands', 'skills', 'hooks'];
+const MANAGED = ['CLAUDE.md', 'commands', 'skills', 'hooks', 'agents'];
 const PERSONAL = 'CLAUDE.personal.md';
 
 const args = process.argv.slice(2);
