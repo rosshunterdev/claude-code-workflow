@@ -89,6 +89,16 @@ Edit files in this repo, not in `~/.claude`, then run `node install.mjs`.
 
 `node install.mjs --check` lists anything in `~/.claude` that has drifted from the repo, including the settings keys, and exits with code 1 if something has.
 
+## How this repo is built
+
+I work on this repo with Claude Code, and the split is deliberate:
+
+- **I decide** the scope, what goes public and what stays private, and whether a change ships.
+- **Claude suggests and drafts.** When it suggests an approach, it brings it to me to consider before acting on it. It writes code and docs, and runs the tests and checks.
+- **Since the first commit, every change goes through a pull request** that I review and merge myself. The PR template records who did what, which suggestions I took, and how the change was verified.
+- **Commits Claude wrote carry a `Co-Authored-By: Claude` line**, so the history shows where AI was involved.
+- **Guardrails back this up:** the ask rules and hooks in this repo make Claude ask me before any push, and before committing to `main`.
+
 ## Third-party tools I use alongside this
 
 Not included in this repo. Credit to their authors.
