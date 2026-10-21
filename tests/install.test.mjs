@@ -36,6 +36,7 @@ test('skips CLAUDE.md until the private file exists', () => {
   assert.match(res.stdout, /skip\s+CLAUDE\.md/);
   assert.equal(fs.existsSync(path.join(dir, 'CLAUDE.md')), false);
   assert.equal(fs.existsSync(path.join(dir, 'commands', 'start.md')), true);
+  assert.equal(fs.existsSync(path.join(dir, 'agents', 'house-reviewer.md')), true);
 });
 
 test('check exits 1 when something has drifted', () => {
