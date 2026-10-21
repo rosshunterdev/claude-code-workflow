@@ -72,6 +72,17 @@
             "statusMessage": "Checking git branch..."
           }
         ]
+      },
+      {
+        "matcher": "Read|Edit|Write|Grep|Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node ~/.claude/hooks/secret-guard.js",
+            "timeout": 5,
+            "statusMessage": "Checking for secrets..."
+          }
+        ]
       }
     ],
     "Stop": [
@@ -105,7 +116,7 @@
     "context7@claude-plugins-official": true,
     "impeccable@impeccable": false,
     "block-dangerous-commands@claude-code-hooks": true,
-    "protect-secrets@claude-code-hooks": true,
+    "protect-secrets@claude-code-hooks": false,
     "git-safety@claude-code-hooks": false
   },
   "extraKnownMarketplaces": {

@@ -10,6 +10,7 @@ commands/            slash commands
 skills/              skills, some with helper scripts
 hooks/               Node hooks that run before shell commands and when a turn ends
 settings/            permission rules, hook wiring and plugin list (reference copy)
+tests/               node:test suites and the real cases they're built from
 install.mjs          copies the setup into ~/.claude
 ```
 
@@ -64,7 +65,8 @@ Rules in `CLAUDE.md` are instructions Claude is asked to follow. Everything else
 | Ask rules | `settings/settings.json` | An approval prompt for every `git push` and `gh pr merge`, in both shells |
 | `block-network.js` | `hooks/` | Denies `curl`, `wget`, `iwr`, `irm`, `Invoke-WebRequest` and `Invoke-RestMethod`. Matches whole words only, so "Confirm" doesn't trip it. |
 | `git-ask.js` | `hooks/` | Asks before `commit`, `merge` or `rebase` on `main` or `master`. Follows a leading `cd` so it checks the right repo. |
-| Plugins | [karanb192/claude-code-hooks](https://github.com/karanb192/claude-code-hooks) | `block-dangerous-commands` and `protect-secrets` |
+| `secret-guard.js` | `hooks/` | Blocks reading secret files (`.env`, keys, credentials) and printing secret variables; asks before deleting, copying or moving one. Parses each command instead of searching its text. Covers Bash, PowerShell, Read, Edit, Write and Grep. |
+| Plugins | [karanb192/claude-code-hooks](https://github.com/karanb192/claude-code-hooks) | `block-dangerous-commands` |
 
 `notify.js` isn't a safety layer: it shows a Windows toast when Claude finishes a turn or is waiting on a permission prompt.
 
@@ -89,6 +91,16 @@ Edit files in this repo, not in `~/.claude`, then run `node install.mjs`.
 
 `node install.mjs --check` lists anything in `~/.claude` that has drifted from the repo, including the settings keys, and exits with code 1 if something has.
 
+## Tests
+
+```
+node --test
+```
+
+`secret-guard.js` replaced the protect-secrets plugin. Its tests start from 40 real commands the plugin blocked in my sessions between September and October 2026, with paths and names removed and each one labelled by me: 5 read a secret, 2 deleted or copied one, and 33 only mentioned `.env`. On those 40 the plugin got 5 right; secret-guard gets all 40.
+
+The tests also run the plugin's own test cases (adapted, MIT). secret-guard passes them except where my rules deliberately differ: it asks instead of blocking before a secret file is deleted, copied or moved, and it blocks `base64` of a secret file.
+
 ## How this repo is built
 
 I work on this repo with Claude Code, and the split is deliberate:
@@ -106,7 +118,7 @@ Not included in this repo. Credit to their authors.
 | Tool | Used for |
 |---|---|
 | [obra/superpowers](https://github.com/obra/superpowers) | Process skills: brainstorming, writing and executing plans, test-driven development, systematic debugging, code review, git worktrees |
-| [karanb192/claude-code-hooks](https://github.com/karanb192/claude-code-hooks) | `block-dangerous-commands` and `protect-secrets` plugins |
+| [karanb192/claude-code-hooks](https://github.com/karanb192/claude-code-hooks) | `block-dangerous-commands` plugin. secret-guard's coverage tests are adapted from its protect-secrets suite. |
 | Claude plugins official marketplace | `frontend-design` and `context7` plugins |
 | ui-ux-pro-max | Design reference skill |
 | llm-council | Runs a decision past several advisor personas, based on Andrej Karpathy's LLM Council |
