@@ -9,8 +9,11 @@ Get oriented cheaply. Read only what's listed; don't read other docs unless step
 2. Read CLAUDE.md (or claude.md). If it names a "read first" doc (e.g. a handbook), read
    that too.
 3. HANDOVER.md: read only the newest "current state" / "latest session" block (stop at
-   the next dated heading). SESSION_LOG.md: last 30 lines only. DECISIONS.md: don't
-   read it now; grep it later when a "why" question comes up.
+   the next dated heading). SESSION_LOG.md: the newest entry only. Logs differ in order
+   (most are newest first, some oldest first), so grep `^## ` with line numbers, pick the
+   heading with the latest date (highest session number if two share a date), and read
+   from it to the next `## ` heading. DECISIONS.md: don't read it now; grep it later
+   when a "why" question comes up.
 4. List the other root markdown files by name only. Open one only if HANDOVER says the
    current task depends on it.
 
