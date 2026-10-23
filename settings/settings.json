@@ -11,11 +11,11 @@
       "Bash(npx *)"
     ],
     "deny": [
-      "Read(.env)",
-      "Read(.env.*)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
       "Read(**/secrets/**)",
       "Read(~/.ssh/**)",
-      "Read(.credentials.json)",
+      "Read(~/.claude/.credentials.json)",
       "Read(~/.claude/daemon/**)",
       "Read(~/.claude/history*)",
       "Bash(rm -rf *)",

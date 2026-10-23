@@ -26,7 +26,7 @@ const SECRET_PATHS = [
   /(?:^|\/)\.kube\/config$/,
   /(?:^|\/)\.docker\/config\.json$/,
   /(?:^|\/)\.gem\/credentials$/,
-  /(?:^|\/)(?:credentials?|secrets?)\.(?:json|ya?ml|toml)$/i,
+  /(?:^|\/)\.?(?:credentials?|secrets?)\.(?:json|ya?ml|toml)$/i,
   /service[_-]?account[^/]*\.json$/i,
   /(?:^|\/)\.(?:netrc|npmrc|pypirc|pgpass|my\.cnf|git-credentials|vault-token)$/,
   /(?:^|\/)\.?htpasswd$/,

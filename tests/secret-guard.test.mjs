@@ -71,6 +71,21 @@ for (const [command, expect] of parser) {
   test(`parser (${expect}): ${JSON.stringify(command)}`, () => assert.equal(outcome(bash(command)), expect));
 }
 
+// Credential files can be dot-prefixed, in any of the tools.
+const dotfiles = [
+  [{ tool_name: 'Read', tool_input: { file_path: 'C:\\proj\\.credentials.json' } }, 'block'],
+  [{ tool_name: 'Edit', tool_input: { file_path: 'app/.secrets.yml' } }, 'block'],
+  [{ tool_name: 'Read', tool_input: { file_path: 'config/credentials.json' } }, 'block'],
+  [{ tool_name: 'Read', tool_input: { file_path: 'docs/.credentials.json.example' } }, 'pass'],
+  [{ tool_name: 'Read', tool_input: { file_path: 'docs/credentials-guide.md' } }, 'pass'],
+  [bash('cat ~/.config/app/.credentials.json'), 'block'],
+  [ps('Get-Content $HOME\\.config\\app\\.secrets.toml'), 'block'],
+];
+for (const [input, expect] of dotfiles) {
+  const target = input.tool_input.file_path || input.tool_input.command;
+  test(`dotfiles (${expect}): ${input.tool_name} ${target}`, () => assert.equal(outcome(input), expect));
+}
+
 // End to end: hook JSON on stdin, decision on stdout, as Claude Code runs it.
 function run(stdin) {
   const home = fs.mkdtempSync(path.join(os.tmpdir(), 'secret-guard-'));
